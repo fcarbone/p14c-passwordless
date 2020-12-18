@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/default}">
+
+<div id="page" layout:fragment="content">
+
+	<!-- Call to Action -->
+	<section class="call-to-action text-white text-center">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-9 mx-auto">
+					<h1 class="mb-4">User Registration</h1>
+				</div>
+				<div class="col-md-10 col-lg-8 col-xl-7 mx-auto"></div>
+			</div>
+		</div>
+	</section>
+
+
+	<!-- Form -->
+	<section class="features-icons bg-light text-left">
+		<div class="container w-75 h-50 pt-5 shadow p-5 mb-5 bg-white rounded">
+			<p class="text-center font-italic">Input your email address and first name to register. In the next screen you will need to pair your device</p>
+			<hr />
+			<form role="form" th:action="@{/register}" th:object="${user}" method="post">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				<br />
+				<div class="form-group">
+					<label for="beneficiaryName" class="h5 text-primary">First name</label> <input type="text" th:field="*{name.given}" class="form-control"
+						placeholder="Your First Name">
+				</div>
+				<br />
+				<div class="form-group">
+					<label for="Email" class="h5 text-primary">Email</label> <input type="email" th:field="*{email}" class="form-control"
+						placeholder="Your email address (username)">
+				</div>
+				<br />
+				<hr />
+				<button type="submit" class="btn btn-primary">Next</button>
+			</form>
+		</div>
+
+	</section>
+
+</div>
+
+</html>

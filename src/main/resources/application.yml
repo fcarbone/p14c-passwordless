@@ -1,0 +1,55 @@
+ping-config:
+   server: <<REPLACE>>
+   env-id: <<REPLACE>>
+   oidc-client-id: <<REPLACE>>
+   oidc-client-secret: <<REPLACE>>
+   worker-client-id: <<REPLACE>>
+   worker-client-secret: <<REPLACE>>
+   population-id: <<REPLACE>>
+   trx-approval:
+      policy: trx_approval
+      template: transaction
+   profile-page: https://apps.pingone.${ping-config.server}/${ping-config.env-id}/myaccount
+   auth-flow-url: https://auth.pingone.${ping-config.server}/${ping-config.env-id}/flows
+   api-url: https://api.pingone.${ping-config.server}/v1/environments/${ping-config.env-id}
+   issuer-uri: https://auth.pingone.${ping-config.server}/${ping-config.env-id}/as
+   az-server-az-url: ${ping-config.issuer-uri}/authorize
+   
+      
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    com.pingidentity.oidclogin: DEBUG
+    org.springframework.web.client.RestTemplate: DEBUG
+    
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          oidc-app:
+            client-id: ${ping-config.oidc-client-id}
+            client-secret: ${ping-config.oidc-client-secret}
+            client-authentication-method: basic
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
+              - profile
+              - email
+          worker-app:
+            client-id: ${ping-config.worker-client-id}
+            client-secret: ${ping-config.worker-client-secret}
+            client-authentication-method: basic
+            authorization-grant-type: client_credentials
+            scope:
+              - profile 
+        provider:
+          oidc-app:
+            issuer-uri: ${ping-config.issuer-uri}
+          worker-app:
+            issuer-uri: ${ping-config.issuer-uri}
+
